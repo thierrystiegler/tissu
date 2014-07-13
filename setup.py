@@ -21,7 +21,7 @@ setup(
     name             = "tissu",
     version          = VERSION,
     description      = "Tissu - Functions to handle settings with Fabric",
-    long_description = open('README.md').read()
+    long_description = open('README.md').read(),
     author           = "Thierry Stiegler",
     author_email     = "thierry.stiegler@gmail.com",
     url              = "http://github.com/thierrystiegler/tissu",
