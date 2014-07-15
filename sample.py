@@ -8,13 +8,15 @@
 # Authors   : Thierry Stiegler <thierry.stiegler@gmail.com>
 # -----------------------------------------------------------------------------
 
-from tissu.api import *
-print(load_settings("caca"))
+"""
+Sample module
+"""
 
+from tissu.api import load_settings
+print load_settings("test")
 
 from tissu.conf import settings
 
-public_props = (name for name in dir(settings) if not name.startswith('_'))
-for k in public_props:
-    print("%s : %s" % (k,getattr(settings, k) ) )
-
+properties = [name for name in dir(settings) if not name.startswith('_')]
+for k in properties:
+    print "%s : %s" % (k, getattr(settings, k))

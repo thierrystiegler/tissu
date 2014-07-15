@@ -11,6 +11,7 @@
 # Taken from Python 2.7 with permission from/by the original author.
 import sys
 
+
 def _resolve_name(name, package, level):
     """Return the absolute name of the module to be imported."""
     if not hasattr(package, 'rindex'):

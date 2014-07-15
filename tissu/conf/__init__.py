@@ -11,11 +11,12 @@
 """
 Settings and configuration for your application.
 
-Inspired by the django configuration : https://github.com/django/django/blob/master/django/conf/__init__.py
+Inspired by the django configuration :
+https://github.com/django/django/blob/master/django/conf/__init__.py
 
-Values will be read from the module specified by the TISSU_SETTINGS_MODULE environment
-variable, and then from TISSU_GLOBAL_SETTINGS; see the global settings file for
-a list of all possible variables.
+Values will be read from the module specified by the TISSU_SETTINGS_MODULE
+environment variable, and then from TISSU_GLOBAL_SETTINGS; see the global
+settings file for a list of all possible variables.
 """
 
 import os
@@ -30,6 +31,8 @@ import tissu.constants as C
 ENVIRONMENT_VARIABLE = C.TISSU_SETTINGS_MODULE
 
 empty = object()
+
+
 def new_method_proxy(func):
     def inner(self, *args):
         if self._wrapped is empty:
@@ -127,9 +130,9 @@ class BaseSettings(object):
     Common logic for settings whether set by a module or by the user.
     """
     def __setattr__(self, name, value):
-        #some sample in order to handle futur specific syntax for some Change Config keys
+        # some sample in order to handle futur specific syntax for some Change Config keys
         #
-        #if name in ("MEDIA_URL", "STATIC_URL") and value and not value.endswith('/'):
+        # if name in ("MEDIA_URL", "STATIC_URL") and value and not value.endswith('/'):
         #    warnings.warn('If set, %s must end with a slash' % name,
         #                  DeprecationWarning)
         object.__setattr__(self, name, value)
@@ -150,7 +153,6 @@ class Settings(BaseSettings):
         except ImportError, e:
             raise ImportError("Could not import settings '%s' (Is it on sys.path?): %s" % (self.SETTINGS_MODULE, e))
 
-        
         for setting in dir(mod):
             if setting == setting.upper():
                 setting_value = getattr(mod, setting)

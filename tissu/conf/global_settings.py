@@ -8,6 +8,10 @@
 # Authors   : Thierry Stiegler <thierry.stiegler@gmail.com>
 # -----------------------------------------------------------------------------
 
+"""
+Global settings for TISSU and FABRIC
+"""
+
 DEBUG = False
 
 FABRIC_PARALLEL_EXECUTION = False

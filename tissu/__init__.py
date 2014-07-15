@@ -10,9 +10,9 @@
 
 """
     Handle your settings with Fabric
- 
+
     Usage in your python code:
- 
+
     >>> from tissu.api import *
     >>> load_settings(mysettings)
 
@@ -27,18 +27,18 @@
 
 """
 
-import api
-import tasks
-import conf
+import tissu.api
+import tissu.tasks
+import tissu.conf
+from tissu.constants import VERSION
 
-from constants import VERSION
 
 __all__ = [
- 'api',
- 'tasks',
- 'constants',
- 'conf'
- 'VERSION'
+    'api',
+    'tasks',
+    'constants',
+    'conf',
+    'VERSION'
 ]
 
 __version__ = VERSION

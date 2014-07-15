@@ -8,57 +8,65 @@
 # Authors   : Thierry Stiegler <thierry.stiegler@gmail.com>
 # -----------------------------------------------------------------------------
 
-import inspect, os, sys
+"""
+Generic fabric tasks for tissu you normaly just want e
+>>> from tissu.tasks import e
+"""
 
-from fabric.api import env, run, local
-from fabric.decorators import task, roles
+import os
+
+from fabric.api import env, local
+from fabric.decorators import task
 from fabric.colors import red, green, magenta, yellow
-from fabric.utils import abort, puts, warn
+from fabric.utils import abort, puts
 from tissu.api import load_settings, is_tissu_loaded
 from tissu import constants as C
 
 
 DEFAULT_PYTHON_TPL = """# -*- coding: utf-8 -*-
-# generate with tissu                
+# generate with tissu       
 import os
 
 PROJECT_PATH =  os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 
 # Sample of configuration
 #
-# A = { 
+# A = {
 #  "user" : "foo",
 #  "hostname" : "localhost",
 #  "password": "password",
 # }
-# 
-# B = { 
+#
+# B = {
 #  "user" : "bar",
 #  "hostname" : "server.example.org",
 #  "key": "/home/bar/.ssh/id_rsa.pub"
-# 
+#
 # }
-# 
-# C = { 
+#
+# C = {
 #  "user" : "john",
 #  "hostname" : "server2.example.org",
 #  "port": "22000",
 #  "password" : "supermario",
 # }
-# 
+#
 # %(roles)s = {
 #     "db":       [A],
 #     "web":      [B,C],
 # }
-# 
+#
 %(roles)s = {}
 """ % {
-    "roles" : C.ROLES
+    "roles": C.ROLES
 }
 
 
-@task 
+@task
 def tissu_print():
+    """
+    Print FABRIC env dict and TISSU settings public properties
+    """
     if is_tissu_loaded():
         puts(magenta("Fabric env :"))
 
@@ -66,14 +74,14 @@ def tissu_print():
         keys.sort()
         for k in keys:
             v = env[k]
-            puts("%s : %s" % ( yellow(k),v ) )
+            puts("%s : %s" % (yellow(k), v))
 
         puts("\n")
         puts(magenta("Tissu settings :"))
         from tissu.conf import settings
-        public_props = (name for name in dir(settings) if not name.startswith('_'))
-        for k in public_props:
-            puts("%s : %s" % ( yellow(k),getattr(settings, k) ) )
+        props = (name for name in dir(settings) if not name.startswith('_'))
+        for k in props:
+            puts("%s : %s" % (yellow(k), getattr(settings, k)))
 
     else:
         abort(red("No environnement loaded, please run fab e:{envnanme}"))
@@ -93,9 +101,8 @@ def e(envname):
         except Exception, e:
             import traceback
             traceback.print_exc()
-            
             msg = "\n\nERREUR: %s" % e
-            puts(red(msg))       
+            puts(red(msg))
     else:
         abort(red("Please give an environment name :( \n$ fab e:production"))
 

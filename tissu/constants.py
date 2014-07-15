@@ -8,6 +8,9 @@
 # Authors   : Thierry Stiegler <thierry.stiegler@gmail.com>
 # -----------------------------------------------------------------------------
 
+"""
+CONSTANTS used in TISSU's code
+"""
 
 # A
 ALL_ROLE = "all"
@@ -18,12 +21,13 @@ CURRENT_TISSU = "current_tissu"
 
 # D
 DEFAULT_SETTINGS_NAME = "default"
-DEFAULT_SETTINGS_FILENAME = "%s.py" % DEFAULT_SETTINGS_NAME 
+DEFAULT_SETTINGS_FILENAME = "%s.py" % DEFAULT_SETTINGS_NAME
 DEFAULT_TISSU_SETTINGS_MODULE = 'settings.%s' % DEFAULT_SETTINGS_NAME
 DEFAULT_SSH_PORT = 22
 
 # E
 # F
+FABRIC_USE_SSH_CONFIG = "FABRIC_USE_SSH_CONFIG"
 # G
 # H
 HOSTDEFS = "hostdefs"
@@ -35,7 +39,7 @@ HOSTNAME = "hostname"
 # K
 # L
 # M
-MY_SETTINGS ="my_settings"
+MY_SETTINGS = "my_settings"
 # N
 # O
 # P
