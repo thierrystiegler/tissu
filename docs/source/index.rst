@@ -6,6 +6,8 @@
 Welcome to Tissu for Fabric's documentation!
 ============================================
 
+pip install tissu
+
 Contents:
 
 .. toctree::
