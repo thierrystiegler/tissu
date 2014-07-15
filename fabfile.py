@@ -54,9 +54,9 @@ def release_pypi():
     local('python setup.py clean sdist register upload')
 
 @task
-def release_doc():
-    #local('sphinx-build -b html docs api')
-    raise NotImplementedError()
+def release_docs():
+    with lcd("docs"):
+        local("make html")
 
 
 @task
@@ -66,6 +66,7 @@ def release_clean():
     local('rm -rf build/')
     local('rm -rf dist/')
     local('rm -rf pylint/*.txt')
+    local('rm -rf docs/build/*')
 
 def _subexec(command):
     """
