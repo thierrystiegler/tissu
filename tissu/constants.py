@@ -62,7 +62,7 @@ TISSU_SETTINGS_MODULE = "TISSU_SETTINGS_MODULE"
 USER = "user"
 
 # V
-VERSION = "0.1"
+VERSION = "0.1-alpha"
 # W
 # X
 # Y
