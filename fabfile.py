@@ -56,6 +56,7 @@ def release_pypi():
 @task
 def release_docs():
     with lcd("docs"):
+        local("sphinx-apidoc -e -P -f -o  source ../tissu/")
         local("make html")
 
 
