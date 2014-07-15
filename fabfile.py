@@ -8,16 +8,21 @@
 # Authors   : Thierry Stiegler <thierry.stiegler@gmail.com>
 # -----------------------------------------------------------------------------
 
-import os, sys
+import os, sys, StringIO
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(current_dir)
 
+import subprocess
+import fabric
+from fabric.api import *
+from fabric.context_managers import quiet
+
 from tissu import VERSION
 from tissu.tasks import *
-from fabric.api import *
 
 
+# TESTING PURPOSE TASKS
 def hello():
     run("echo hello && uptime")
 
@@ -35,6 +40,8 @@ def hello_web():
 @task
 def hello_all():
     hello()
+
+# RELEASE TASK 
 
 @task
 def release_github():
@@ -56,12 +63,52 @@ def release_doc():
 def release_clean():
     local("find . -name \"*.pyc\" -exec rm -f '{}' ';'")
     local('rm -rf api/')
-    local('rm -rf build')
-    local('rm -rf dist')
+    local('rm -rf build/')
+    local('rm -rf dist/')
+    local('rm -rf pylint/*.txt')
+
+def _subexec(command):
+    """
+    Subprocess call for command that return non zero exit code...
+    """
+    lcwd = fabric.state.env.get('lcwd', None) or None #sets lcwd to None if it bools to false as well
+    process  = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=lcwd)
+    out, err = process.communicate()
+    print "command : %s " % command
+    print "out: %s" % out
+    print "err: %s" % err
+
 
 @task
-def release_check():
-    local("pylint tissu")
+def release_qa():
+    """
+    Pylint and PEP8 QA report generator
+    
+    We use subprocess instead local because pylint and pep8 don't return a zero exit code.
+    This behaviour is incompatible with fabric...
+    """
+
+   
+    lines = StringIO.StringIO(local('find . -name "*.py"', capture=True))
+    for line in lines.readlines():
+        print "PYLINT CHECK"
+        print "-----------------------"
+        pyfile = os.path.normpath(line).replace("\n","").replace("\r","")
+       
+        reportfilename = pyfile.replace("./", "").replace("/", "_").replace(".py", ".txt")
+        reportpath = os.path.join("qa", "pylint", reportfilename)
+
+        options = {"pyfile":pyfile, "reportpath": reportpath}
+        command = "pylint  %(pyfile)s > %(reportpath)s" % options  
+        _subexec(command)        
+
+        print "PEP8 CHECK"
+        print "-----------------------"
+        reportpath = os.path.join("qa", "pep8", reportfilename)
+        options['reportpath'] = reportpath
+        command = "pep8 %(pyfile)s > %(reportpath)s" % options
+        _subexec(command)
+
 
 
 # EOF - vim: ts=4 sw=4 noet
