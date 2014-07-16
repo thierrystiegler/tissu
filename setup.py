@@ -26,6 +26,7 @@ setup(
     author_email     = "thierry.stiegler@gmail.com",
     url              = "http://github.com/thierrystiegler/tissu",
     download_url     = "https://github.com/thierrystiegler/tissu/tarball/%s" % (VERSION),
+    include_package_data    = True,
     keywords         = ["fabric", "settings"],
     install_requires = ["Fabric",],
     packages         = find_packages(),
