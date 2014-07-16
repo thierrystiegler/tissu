@@ -15,7 +15,7 @@ try:
 except ImportError:
     from distutils.core import setup, find_packages
 
-from tissu import VERSION
+from tissu.constants import VERSION
 
 setup(
     name             = "tissu",
@@ -27,7 +27,7 @@ setup(
     url              = "http://github.com/thierrystiegler/tissu",
     download_url     = "https://github.com/thierrystiegler/tissu/tarball/%s" % (VERSION),
     keywords         = ["fabric", "settings"],
-    install_requires = ["fabric",],
+    install_requires = ["Fabric",],
     packages         = find_packages(),
     license          = "License :: OSI Approved :: BSD License",
     classifiers      = [

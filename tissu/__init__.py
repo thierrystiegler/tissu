@@ -27,17 +27,10 @@
 
 """
 
-import tissu.api
-import tissu.tasks
-import tissu.conf
 from tissu.constants import VERSION
 
 
 __all__ = [
-    'api',
-    'tasks',
-    'constants',
-    'conf',
     'VERSION'
 ]
 
