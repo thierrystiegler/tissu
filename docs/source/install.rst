@@ -11,7 +11,9 @@ Setuptools
 
 PIP
 ---
-``pip install tissu``
+We are not stabe for the moment, so you need the extra argument --pre
+
+``pip install --pre tissu``
 
 Source code
 -----------
