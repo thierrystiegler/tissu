@@ -16,7 +16,6 @@ sys.path.append(current_dir)
 import subprocess
 import fabric
 from fabric.api import *
-from fabric.context_managers import quiet
 
 from tissu import VERSION
 from tissu.tasks import *
@@ -45,16 +44,25 @@ def hello_all():
 
 @task
 def release_github():
-    local('git commit -a -m "Release %s"' % VERSION) 
-    local('git tag %s ; true' % VERSION)
-    local('git push --all ; true')
+    """
+    Tag the release
+    """
+    opts = {'version': VERSION}
+    local('git tag -a %(version)s -m "Release of version %(version)s"' % opts)
+    local('git push --tags')
 
 @task
 def release_pypi():
+    """
+    Release module to pypi
+    """
     local('python setup.py clean sdist register upload')
 
 @task
 def release_docs():
+    """
+    Generate documentation
+    """
     with lcd("docs"):
         local("sphinx-apidoc -e -P -f -o  source ../tissu/")
         local("make html")
@@ -62,12 +70,27 @@ def release_docs():
 
 @task
 def release_clean():
+    """
+    Clean release files
+    """
     local("find . -name \"*.pyc\" -exec rm -f '{}' ';'")
     local('rm -rf api/')
     local('rm -rf build/')
     local('rm -rf dist/')
     local('rm -rf pylint/*.txt')
     local('rm -rf docs/build/*')
+    local('rm MANIFEST')
+
+@task
+def release():
+    """
+    Release the code
+    """
+    release_clean()
+    release_docs()
+    release_github()
+    release_pypi()
+
 
 def _subexec(command):
     """
@@ -89,8 +112,6 @@ def release_qa():
     We use subprocess instead local because pylint and pep8 don't return a zero exit code.
     This behaviour is incompatible with fabric...
     """
-
-   
     lines = StringIO.StringIO(local('find . -name "*.py"', capture=True))
     for line in lines.readlines():
         print "PYLINT CHECK"
@@ -112,5 +133,11 @@ def release_qa():
         _subexec(command)
 
 
+@task
+def release_manifest():
+    content = local('find tissu -name "*.py"', capture=True)
+    f = open('MANIFEST', 'w+')
+    f.write(content)
+    f.close()
 
 # EOF - vim: ts=4 sw=4 noet
