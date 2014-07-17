@@ -132,12 +132,4 @@ def release_qa():
         command = "pep8 %(pyfile)s > %(reportpath)s" % options
         _subexec(command)
 
-
-@task
-def release_manifest():
-    content = local('find tissu -name "*.py"', capture=True)
-    f = open('MANIFEST', 'w+')
-    f.write(content)
-    f.close()
-
 # EOF - vim: ts=4 sw=4 noet
