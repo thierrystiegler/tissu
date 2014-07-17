@@ -79,7 +79,6 @@ def release_clean():
     local('rm -rf dist/')
     local('rm -rf pylint/*.txt')
     local('rm -rf docs/build/*')
-    local('rm MANIFEST')
 
 @task
 def release():
@@ -131,13 +130,5 @@ def release_qa():
         options['reportpath'] = reportpath
         command = "pep8 %(pyfile)s > %(reportpath)s" % options
         _subexec(command)
-
-
-@task
-def release_manifest():
-    content = local('find tissu -name "*.py"', capture=True)
-    f = open('MANIFEST', 'w+')
-    f.write(content)
-    f.close()
 
 # EOF - vim: ts=4 sw=4 noet

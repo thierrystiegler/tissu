@@ -1,0 +1,3 @@
+prune settings
+prune settings/*
+recursive-include tissu/*.py
