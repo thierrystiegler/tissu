@@ -3,7 +3,7 @@
 Installation
 ============
 
-Tissu is on `pypi <https://pypi.python.org/pypi/tissu/>`.
+Tissu is on `pypi <https://pypi.python.org/pypi/tissu/>`_.
 
 Setuptools
 ----------
